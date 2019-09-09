@@ -41,7 +41,8 @@ app.post('/', (req, res) => {
                     "attributes": {
                         "first_name": data.your_firstname,
                         "last_name": data.your_lastname,
-                        "primary_campus_id": campusID
+                        "primary_campus_id": campusID,
+                        "membership": "Planned Visit Online"
                     }
                 }
             }
@@ -105,7 +106,8 @@ app.post('/', (req, res) => {
                     "attributes": {
                         "first_name": data.spouse_firstname,
                         "last_name": data.spouse_lastname,
-                        "primary_campus_id": campusID
+                        "primary_campus_id": campusID,
+                        "membership": "Planned Visit Online"
                     }
                 }
             }
@@ -114,7 +116,31 @@ app.post('/', (req, res) => {
         household.push(postSpouse) // Add the Promise to the households array
     }
 
-    // TODO: add children
+    // Check for first child
+    if (data.child1_firstname && data.child1_lastname) {
+
+        // Add spouse to Planning Center
+        const postChild1 = request.post({
+            uri: 'https://api.planningcenteronline.com/people/v2/people/',
+            method: 'POST',
+            json: {
+                "data": {
+                    "attributes": {
+                        "first_name": data.child1_firstname,
+                        "last_name": data.child1_lastname,
+                        "birthdate": data.child1_dob,
+                        "medical_notes": data.child1_info,
+                        "child": true, // May need to change this in the future to check if age < 18
+                        "primary_campus_id": campusID,
+                        "membership": "Planned Visit Online"
+                    }
+                }
+            }
+        }).auth(process.env.PCO_APP_ID, process.env.PCO_SECRET, false).catch(error => { console.log(error.message) })
+
+        household.push(postChild1) // Add the Promise to the households array
+
+    }
 
 
     // Put all the people in a household!
