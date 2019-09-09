@@ -11,7 +11,7 @@ npm install
 node app.js
 
 ### POST Request from Gravity Forms
-The app can handle POST requests via, for example, a Gravity Forms form (throught the webhook plugin) with JSON data formatted like the following:
+The app can handle POST requests via, for example, a Gravity Forms form (through the webhook plugin) with JSON data formatted like the following:
 ```javascript
 {
   "campus": "North Fayette",
