@@ -1,5 +1,6 @@
 const express = require('express')
 const request = require('request')
+const bodyParser = require('body-parser');
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -7,6 +8,9 @@ const port = process.env.PORT || 3000
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
+
+// Body parser - support parsing of application/json type post data
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     console.log(process.env.PCO_APP_ID);
@@ -41,6 +45,7 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
     console.log(req.body)
     res.status(200)
+    res.send("Success")
 })
 
 app.listen(port, () => console.log(`PlanAVisit app listening on port ${port}!`))
