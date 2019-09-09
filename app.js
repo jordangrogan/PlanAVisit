@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
         //     console.log('statusCode:', response && response.statusCode) // Print the response status code if a response was received
         //     console.log('body:', body) // Print the body
         // }).auth(process.env.PCO_APP_ID, process.env.PCO_SECRET, false)
-
+    res.send("Plan a visit!")
 })
 
 app.listen(port, () => console.log(`PlanAVisit app listening on port ${port}!`))
