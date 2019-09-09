@@ -38,4 +38,9 @@ app.get('/', (req, res) => {
     res.send("Plan a visit!")
 })
 
+app.post('/', (req, res) => {
+    console.log(req)
+    res.status(200)
+})
+
 app.listen(port, () => console.log(`PlanAVisit app listening on port ${port}!`))
