@@ -117,7 +117,13 @@ app.post('/', (req, res) => {
     // Check for first child
     if (data.child1_firstname && data.child1_lastname) {
 
-        // Add spouse to Planning Center
+        // Check to see if profile should be marked as child=true
+        let isChild = true
+        if (data.child1_dob) {
+            if (getAge(data.child1_dob) >= 18) isChild = false
+        }
+
+        // Add first child to Planning Center
         const postChild1 = request.post({
             uri: 'https://api.planningcenteronline.com/people/v2/people/',
             method: 'POST',
@@ -128,7 +134,7 @@ app.post('/', (req, res) => {
                         "last_name": data.child1_lastname,
                         "birthdate": data.child1_dob,
                         "medical_notes": data.child1_info,
-                        "child": true, // May need to change this in the future to check if age < 18
+                        "child": isChild,
                         "primary_campus_id": campusID,
                         "membership": "Planned Visit Online"
                     }
@@ -180,6 +186,17 @@ app.post('/', (req, res) => {
     res.status(200)
     res.send("Success")
 })
+
+function getAge(DOB) {
+    const today = new Date();
+    const birthDate = new Date(DOB);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age = age - 1;
+    }
+    return age;
+}
 
 
 app.listen(port, () => console.log(`PlanAVisit app listening on port ${port}!`))
