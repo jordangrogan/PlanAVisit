@@ -54,7 +54,6 @@ app.post('/', (req, res) => {
         if (data.your_email) {
             const postEmail = postPerson.then(body => {
                 const personID = body["data"]["id"]
-                console.log("Person ID: " + personID)
                 return request.post({
                     uri: `https://api.planningcenteronline.com/people/v2/people/${personID}/emails`,
                     method: 'POST',
@@ -75,7 +74,6 @@ app.post('/', (req, res) => {
         if (data.your_phone) {
             const postPhone = postPerson.then(body => {
                 const personID = body["data"]["id"]
-                console.log("Person ID: " + body["data"]["id"])
                 return request.post({
                     uri: `https://api.planningcenteronline.com/people/v2/people/${personID}/phone_numbers`,
                     method: 'POST',
@@ -168,7 +166,6 @@ app.post('/', (req, res) => {
                 householdJson.data.relationships.people.data.push({ "type": "Person", "id": `${body["data"]["id"]}` })
             })
             householdJson.data.relationships.primary_contact.data = { "type": "Person", "id": `${householdBodys[0]["data"]["id"]}` }
-            console.log(householdJson)
 
             const postHousehold = request.post({
                 uri: 'https://api.planningcenteronline.com/people/v2/households/',
